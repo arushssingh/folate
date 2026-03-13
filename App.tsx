@@ -23,7 +23,7 @@ const App: React.FC = () => {
   const [streamingChars, setStreamingChars] = useState(0);
   const [messages, setMessages] = useState<Message[]>([]);
   const [currentFiles, setCurrentFiles] = useState<FileSet | null>(null);
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [projectType, setProjectType] = useState<ProjectType>(ProjectType.WEBSITE);
   const { user } = useAuth();
@@ -41,6 +41,15 @@ const App: React.FC = () => {
   }, [isDarkMode]);
 
   const toggleDarkMode = useCallback(() => setIsDarkMode(prev => !prev), []);
+
+  const handleViewChange = useCallback((view: AppView) => {
+    setCurrentView(view);
+    if (view === AppView.MOBILE_APP) {
+      setProjectType(ProjectType.MOBILE_APP);
+    } else if (view === AppView.GENERATOR) {
+      setProjectType(ProjectType.WEBSITE);
+    }
+  }, []);
 
   const startResizing = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
@@ -91,7 +100,9 @@ const App: React.FC = () => {
     if (type) setProjectType(activeType);
 
     setIsGenerating(true);
-    setCurrentView(AppView.GENERATOR);
+    if (currentView === AppView.COMMUNITY || currentView === AppView.PLAYGROUND) {
+      setCurrentView(AppView.GENERATOR);
+    }
 
     const userMsg: Message = { role: 'user', content: prompt };
     setMessages([userMsg]);
@@ -122,7 +133,7 @@ const App: React.FC = () => {
       setIsGenerating(false);
       setStreamingChars(0);
     }
-  }, [user, projectType, getGenerator]);
+  }, [user, projectType, currentView, getGenerator]);
 
   const handleSelectTemplate = useCallback((template: Template) => {
     setCurrentFiles(template.files);
@@ -183,7 +194,7 @@ const App: React.FC = () => {
         isDarkMode={isDarkMode}
         onToggleDarkMode={toggleDarkMode}
         currentView={currentView}
-        onViewChange={setCurrentView}
+        onViewChange={handleViewChange}
         user={user}
         onLoginClick={() => setShowAuthModal(true)}
       />
@@ -212,7 +223,6 @@ const App: React.FC = () => {
                 onSelectTemplate={handleSelectTemplate}
                 isGenerating={isGenerating}
                 projectType={projectType}
-                onProjectTypeChange={setProjectType}
               />
               <Footer isDarkMode={isDarkMode} onViewChange={setCurrentView} />
             </motion.div>

@@ -11,7 +11,6 @@ interface PromptInputProps {
   onSelectTemplate: (template: Template) => void;
   isGenerating: boolean;
   projectType: ProjectType;
-  onProjectTypeChange: (type: ProjectType) => void;
 }
 
 const PROJECT_TYPE_CONFIG = {
@@ -57,7 +56,7 @@ const TemplateCard: React.FC<{ template: Template; onSelect: (t: Template) => vo
   </motion.button>
 );
 
-export const PromptInput: React.FC<PromptInputProps> = React.memo(({ onGenerate, onSelectTemplate, isGenerating, projectType, onProjectTypeChange }) => {
+export const PromptInput: React.FC<PromptInputProps> = React.memo(({ onGenerate, onSelectTemplate, isGenerating, projectType }) => {
   const [prompt, setPrompt] = useState('');
   const [templates, setTemplates] = useState<Template[]>([]);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -124,38 +123,6 @@ export const PromptInput: React.FC<PromptInputProps> = React.memo(({ onGenerate,
             {config.subtitle}
           </motion.p>
         </AnimatePresence>
-      </motion.div>
-
-      {/* Project type tabs */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, delay: 0.05 }}
-        className="flex items-center gap-8 mb-8"
-      >
-        {Object.entries(PROJECT_TYPE_CONFIG).map(([type, cfg]) => {
-          const isActive = type === projectType;
-          return (
-            <button
-              key={type}
-              onClick={() => onProjectTypeChange(type as ProjectType)}
-              className={`relative pb-2.5 text-sm font-medium transition-colors duration-150 ${
-                isActive
-                  ? 'text-gray-900 dark:text-white'
-                  : 'text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
-              }`}
-            >
-              {cfg.label}
-              {isActive && (
-                <motion.div
-                  layoutId="tab-underline"
-                  className="absolute bottom-0 left-0 right-0 h-[2px] bg-gray-900 dark:bg-white rounded-full"
-                  transition={{ type: 'spring', stiffness: 500, damping: 40 }}
-                />
-              )}
-            </button>
-          );
-        })}
       </motion.div>
 
       {/* Input */}

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState, Suspense, useCallback } from 'react';
+import { MobilePreview } from './MobilePreview';
 import {
   Monitor,
   Smartphone,
@@ -582,6 +583,13 @@ export const PreviewWindow: React.FC<PreviewWindowProps> = ({ files, isDarkMode,
                 sandbox="allow-scripts allow-modals allow-same-origin"
               />
             </div>
+          </div>
+        )}
+
+        {/* Mobile App Preview (React Native via Expo Snack) */}
+        {viewMode === ViewMode.PREVIEW && !isWebsite && (
+          <div className={`absolute inset-0 overflow-auto flex items-center justify-center ${isDarkMode ? 'bg-[#1e1e1e]' : 'bg-gray-50'}`}>
+            <MobilePreview files={files} isDarkMode={isDarkMode} />
           </div>
         )}
 

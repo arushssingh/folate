@@ -16,9 +16,10 @@ interface HeaderProps {
 }
 
 const NAV_ITEMS = [
-  { label: 'Generator', id: AppView.GENERATOR },
+  { label: 'Website',    id: AppView.GENERATOR },
+  { label: 'Mobile App', id: AppView.MOBILE_APP },
   { label: 'Playground', id: AppView.PLAYGROUND },
-  { label: 'Community', id: AppView.COMMUNITY },
+  { label: 'Community',  id: AppView.COMMUNITY },
 ];
 
 export const Header: React.FC<HeaderProps> = React.memo(({ onReset, isDarkMode, onToggleDarkMode, currentView, onViewChange, user, onLoginClick }) => {

@@ -27,7 +27,8 @@ export enum ViewMode {
 export enum AppView {
   GENERATOR = 'GENERATOR',
   COMMUNITY = 'COMMUNITY',
-  PLAYGROUND = 'PLAYGROUND'
+  PLAYGROUND = 'PLAYGROUND',
+  MOBILE_APP = 'MOBILE_APP',
 }
 
 export enum ProjectType {
