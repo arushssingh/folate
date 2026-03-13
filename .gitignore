@@ -27,3 +27,14 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# OS
+Thumbs.db
+
+# Secrets (extra safety net)
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+.secrets
